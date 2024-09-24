@@ -1,6 +1,8 @@
 using System.IO.Ports;
+using System.Security.Cryptography;
+using System.Security.Policy;
 
-namespace WinFormsApp1
+namespace ComPortsApp
 {
     public partial class Form1 : Form
     {
@@ -20,8 +22,17 @@ namespace WinFormsApp1
             comboBoxPorts.Items.Add($"{ports[0]} -> {ports[1]}");
             comboBoxPorts.Items.Add($"{ports[2]} <- {ports[3]}");
 
+            comboBoxParity.Items.Add("None");
+            comboBoxParity.Items.Add("Odd");
+            comboBoxParity.Items.Add("Even");
+            comboBoxParity.Items.Add("Mark");
+            comboBoxParity.Items.Add("Space");
+
             if (comboBoxPorts.Items.Count > 0)
                 comboBoxPorts.SelectedIndex = 0;
+
+            if (comboBoxParity.Items.Count > 0)
+                comboBoxParity.SelectedIndex = 0;
 
             communication.OpenPorts(ports[0], ports[1]);
 
@@ -67,5 +78,9 @@ namespace WinFormsApp1
                 $"Отправлено байт: {communication.returnBytesCount}";
         }
 
+        private void comboBoxParity_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

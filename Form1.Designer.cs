@@ -1,4 +1,4 @@
-﻿namespace WinFormsApp1
+﻿namespace ComPortsApp
 {
     partial class Form1
     {
@@ -31,7 +31,7 @@
             textBox1 = new TextBox();
             listBox1 = new ListBox();
             comboBoxPorts = new ComboBox();
-            comboBox2 = new ComboBox();
+            comboBoxParity = new ComboBox();
             label1 = new Label();
             SuspendLayout();
             // 
@@ -64,13 +64,14 @@
             comboBoxPorts.TabIndex = 2;
             comboBoxPorts.SelectedIndexChanged += comboBoxPorts_SelectedIndexChanged;
             // 
-            // comboBox2
+            // comboBoxParity
             // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(301, 41);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(121, 23);
-            comboBox2.TabIndex = 3;
+            comboBoxParity.FormattingEnabled = true;
+            comboBoxParity.Location = new Point(301, 41);
+            comboBoxParity.Name = "comboBoxParity";
+            comboBoxParity.Size = new Size(121, 23);
+            comboBoxParity.TabIndex = 3;
+            comboBoxParity.SelectedIndexChanged += comboBoxParity_SelectedIndexChanged;
             // 
             // label1
             // 
@@ -88,7 +89,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(label1);
-            Controls.Add(comboBox2);
+            Controls.Add(comboBoxParity);
             Controls.Add(comboBoxPorts);
             Controls.Add(listBox1);
             Controls.Add(textBox1);
@@ -104,7 +105,7 @@
         private TextBox textBox1;
         private ListBox listBox1;
         private ComboBox comboBoxPorts;
-        private ComboBox comboBox2;
+        private ComboBox comboBoxParity;
         private Label label1;
     }
 }

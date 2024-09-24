@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.IO.Ports;
 
-namespace WinFormsApp1
+namespace ComPortsApp
 {
     public class DataReceivedEventArgs : EventArgs
     {
