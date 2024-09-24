@@ -75,12 +75,15 @@ namespace ComPortsApp
         private void labelChange()
         {
             label1.Text = $"Скорость порта: {communication.returnBaudRate} бит/сек\n" +
-                $"Отправлено байт: {communication.returnBytesCount}";
+                $"Отправлено байт: {communication.returnBytesCount}\n" +
+                $"Паритет: {communication.getParity()}";
         }
 
         private void comboBoxParity_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+            string selectedParity = comboBoxParity.SelectedItem.ToString();
+            if (selectedParity != null)
+                communication.changeParity(selectedParity);
         }
     }
 }

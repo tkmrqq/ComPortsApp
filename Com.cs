@@ -130,6 +130,21 @@ namespace ComPortsApp
             }
         }
 
+        public void changeParity(string selectedParity)
+        {
+            Parity parity = (Parity)Enum.Parse(typeof(Parity), selectedParity);
+            comPort1.Parity = parity;
+            comPort2.Parity = parity;
+            comPort3.Parity = parity;
+            comPort4.Parity = parity;
+        }
+
+        public string getParity()
+        {
+            Parity parity = comPort1.Parity;
+            return parity.ToString();
+        }
+
         public void Dispose()
         {
             comPort1?.Close();
@@ -150,6 +165,7 @@ namespace ComPortsApp
                 comPort1.DataReceived += (sender, e) =>
                 {
                     string data = comPort1.ReadExisting();
+                    comPort1.Parity = Parity.Even;
                     comPort2.Write(data);
                     DataReceived?.Invoke(this, new DataReceivedEventArgs(data, comPort1.PortName, comPort2.PortName));
                 };
