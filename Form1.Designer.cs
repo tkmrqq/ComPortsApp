@@ -39,7 +39,7 @@
             // 
             textBox1.Location = new Point(12, 12);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(100, 23);
+            textBox1.Size = new Size(180, 23);
             textBox1.TabIndex = 0;
             textBox1.KeyDown += textBox1_KeyDown;
             // 
@@ -58,7 +58,7 @@
             // comboBoxPorts
             // 
             comboBoxPorts.FormattingEnabled = true;
-            comboBoxPorts.Location = new Point(301, 12);
+            comboBoxPorts.Location = new Point(225, 12);
             comboBoxPorts.Name = "comboBoxPorts";
             comboBoxPorts.Size = new Size(121, 23);
             comboBoxPorts.TabIndex = 2;
@@ -67,7 +67,7 @@
             // comboBoxParity
             // 
             comboBoxParity.FormattingEnabled = true;
-            comboBoxParity.Location = new Point(301, 41);
+            comboBoxParity.Location = new Point(355, 12);
             comboBoxParity.Name = "comboBoxParity";
             comboBoxParity.Size = new Size(121, 23);
             comboBoxParity.TabIndex = 3;
@@ -77,7 +77,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            label1.Location = new Point(301, 91);
+            label1.Location = new Point(12, 385);
             label1.Name = "label1";
             label1.Size = new Size(38, 15);
             label1.TabIndex = 4;

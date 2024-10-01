@@ -41,11 +41,11 @@ namespace ComPortsApp
             comPort3 = new SerialPort(ports[2], 9600, Parity.None, 8, StopBits.One);
             comPort4 = new SerialPort(ports[3], 9600, Parity.None, 8, StopBits.One);
 
-            comPort1.DataReceived += ComPort1_DataReceived; // COMx -> COMy+1
-            comPort2.DataReceived += ComPort2_DataReceived; // COMx+1 <- COMy
+            comPort1.DataReceived += new SerialDataReceivedEventHandler(ComPort1_DataReceived); // COMx -> COMy+1
+            comPort2.DataReceived += new SerialDataReceivedEventHandler(ComPort2_DataReceived); // COMx+1 <- COMy
 
-            comPort3.DataReceived += ComPort3_DataReceived; // COMy -> COMx+1
-            comPort4.DataReceived += ComPort4_DataReceived; // COMy+1 <- COMx
+            comPort3.DataReceived += new SerialDataReceivedEventHandler(ComPort3_DataReceived); // COMy -> COMx+1
+            comPort4.DataReceived += new SerialDataReceivedEventHandler(ComPort4_DataReceived); // COMy+1 <- COMx
 
             comPort1.Open();
             comPort2.Open();
@@ -57,25 +57,23 @@ namespace ComPortsApp
         private void ComPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             string data = comPort1.ReadExisting();
-            DataReceived?.Invoke(this, new DataReceivedEventArgs(data, comPort1.PortName, comPort2.PortName));
         }
 
         private void ComPort2_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             string data = comPort2.ReadExisting();
-            DataReceived?.Invoke(this, new DataReceivedEventArgs(data, comPort2.PortName, comPort1.PortName));
+            DataReceived?.Invoke(this, new DataReceivedEventArgs(data, comPort1.PortName, comPort2.PortName));
         }
         private void ComPort3_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             string data = comPort3.ReadExisting();
-            comPort4.Write(data);
-            DataReceived?.Invoke(this, new DataReceivedEventArgs(data, comPort3.PortName, comPort4.PortName));
+            DataReceived?.Invoke(this, new DataReceivedEventArgs(data, comPort4.PortName, comPort3.PortName));
         }
 
         private void ComPort4_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            string data = comPort4.ReadExisting();
-            DataReceived?.Invoke(this, new DataReceivedEventArgs(data, comPort4.PortName, comPort3.PortName));
+            //string data = comPort4.ReadExisting();
+            //DataReceived?.Invoke(this, new DataReceivedEventArgs(data, comPort4.PortName, comPort3.PortName));
         }
 
         public void SendData(string data)
@@ -84,13 +82,11 @@ namespace ComPortsApp
             {
                 comPort1.Write(data);
                 sentBytesCount += Encoding.ASCII.GetByteCount(data);
-                DataReceived?.Invoke(this, new DataReceivedEventArgs(data, comPort1.PortName, comPort2.PortName));
             }
-            else if (comPort3.IsOpen)
+            else if (comPort4.IsOpen)
             {
-                comPort3.Write(data);
+                comPort4.Write(data);
                 sentBytesCount += Encoding.ASCII.GetByteCount(data);
-                DataReceived?.Invoke(this, new DataReceivedEventArgs(data, comPort3.PortName, comPort4.PortName));
             }
         }
 
@@ -111,7 +107,6 @@ namespace ComPortsApp
                 comPort3.Open();
                 comPort4.Open();
             }
-            ConfigurePortsForSend(fromPort, toPort);
         }
 
         public int returnBaudRate => comPort1.BaudRate;
@@ -152,34 +147,5 @@ namespace ComPortsApp
             comPort3?.Close();
             comPort4?.Close();
         }
-
-        public void ConfigurePortsForSend(string fromPort, string toPort)
-        {
-            comPort1.DataReceived -= ComPort1_DataReceived;
-            comPort2.DataReceived -= ComPort2_DataReceived;
-            comPort3.DataReceived -= ComPort3_DataReceived;
-            comPort4.DataReceived -= ComPort4_DataReceived;
-
-            if (fromPort == comPort1.PortName && toPort == comPort2.PortName)
-            {
-                comPort1.DataReceived += (sender, e) =>
-                {
-                    string data = comPort1.ReadExisting();
-                    comPort1.Parity = Parity.Even;
-                    comPort2.Write(data);
-                    DataReceived?.Invoke(this, new DataReceivedEventArgs(data, comPort1.PortName, comPort2.PortName));
-                };
-            }
-            else if (fromPort == comPort3.PortName && toPort == comPort4.PortName)
-            {
-                comPort3.DataReceived += (sender, e) =>
-                {
-                    string data = comPort3.ReadExisting();
-                    comPort4.Write(data);
-                    DataReceived?.Invoke(this, new DataReceivedEventArgs(data, comPort3.PortName, comPort4.PortName));
-                };
-            }
-        }
-
     }
 }
