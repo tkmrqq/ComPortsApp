@@ -33,6 +33,7 @@
             comboBoxPorts = new ComboBox();
             comboBoxParity = new ComboBox();
             label1 = new Label();
+            comboBoxGroupNumber = new ComboBox();
             SuspendLayout();
             // 
             // textBox1
@@ -83,11 +84,20 @@
             label1.TabIndex = 4;
             label1.Text = "label1";
             // 
+            // comboBoxGroupNumber
+            // 
+            comboBoxGroupNumber.FormattingEnabled = true;
+            comboBoxGroupNumber.Location = new Point(225, 41);
+            comboBoxGroupNumber.Name = "comboBoxGroupNumber";
+            comboBoxGroupNumber.Size = new Size(121, 23);
+            comboBoxGroupNumber.TabIndex = 5;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(comboBoxGroupNumber);
             Controls.Add(label1);
             Controls.Add(comboBoxParity);
             Controls.Add(comboBoxPorts);
@@ -107,5 +117,6 @@
         private ComboBox comboBoxPorts;
         private ComboBox comboBoxParity;
         private Label label1;
+        private ComboBox comboBoxGroupNumber;
     }
 }

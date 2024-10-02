@@ -76,17 +76,27 @@ namespace ComPortsApp
             //DataReceived?.Invoke(this, new DataReceivedEventArgs(data, comPort4.PortName, comPort3.PortName));
         }
 
-        public void SendData(string data)
+        public void SendData(string data, int groupNumber)
         {
+            byte[] dataBytes = Encoding.ASCII.GetBytes(data);
+            byte[] frameData = new byte[groupNumber + 1]; // Длина n + 1
+            Array.Copy(dataBytes, frameData, Math.Min(dataBytes.Length, frameData.Length));
+
+            // Создаем кадр
+            Frame frame = new Frame((byte)comPort1.PortName[3], frameData, groupNumber);
+
+            // Выполняем байт-стаффинг
+            byte[] stuffedFrame = ByteStuffing.Stuff(frame.ToBytes());
+
             if (comPort1.IsOpen)
             {
-                comPort1.Write(data);
-                sentBytesCount += Encoding.ASCII.GetByteCount(data);
+                comPort1.Write(stuffedFrame, 0, stuffedFrame.Length);
+                sentBytesCount += stuffedFrame.Length;
             }
             else if (comPort4.IsOpen)
             {
-                comPort4.Write(data);
-                sentBytesCount += Encoding.ASCII.GetByteCount(data);
+                comPort4.Write(stuffedFrame, 0, stuffedFrame.Length);
+                sentBytesCount += stuffedFrame.Length;
             }
         }
 
